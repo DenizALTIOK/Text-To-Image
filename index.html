@@ -24,11 +24,11 @@
   <body style="background-color: #202020;">
     <div style="margin-left: 25px; margin-top: 15px;">
         <div>
-            <h1 style="color: #f0f0f0">Text To Image Conversion Tool</h1>
+            <h1 id="title" style="color: #f0f0f0; font-size: 40px">Text To Image Conversion Tool</h1>
         </div>
         <hr style="color: #ffffff; background-color: #ffffff; margin-right: 5%;">
         <div>
-            <textarea id="input" style="color: #e0e0e0; background-color: #404040; border-radius: 5px; resize: both; width: 35%; height: 100px" placeholder=" Your image in text format goes here"></textarea>
+            <textarea id="input" style="color: #e0e0e0; background-color: #404040; border-radius: 5px; resize: both; min-width: 365px; width: 35%; height: 100px" placeholder=" Your image in text format goes here"></textarea>
         </div>
         <div>
             <button onclick="convert()" style="background: radial-gradient(at 100% 0%, rgb(85, 130, 255), rgb(0, 38, 255)); font-weight: 600; border-width: 0px; color: #f0f0f0;border-radius: 5px; width: 150px; height: 40px; font-size: 18px;"> CONVERT </button>
@@ -37,20 +37,42 @@
             NOTE
         </div>
         <div style="color: #f0f0f0; background-color: #505050; padding-left: 15px; padding-top: 5px; padding-bottom: 5px; width: fit-content; padding-right: 15px; border-radius: 5px; border-top-left-radius: 0px; font-size: 16px; margin-right: 5%;">
-            This app was developed solely by Deniz Altiok. Thank you for using Paint Paint. If you found this project other way and found it useful, I am glad to hear that!
+            This app was developed solely by Deniz Altiok. Thank you for using Paint Paint. If you found this project other way and found it useful, I am pleased to receive such feedback.
         </div>
         <div id="ErrorMessage" style="display: none; align-items: center; justify-content: space-between; margin-top: 15px; color:#ffffff; background-color: #e22020; padding-left: 15px; padding-top: 5px; padding-bottom: 5px; padding-right: 10px; font-weight: 600; border-radius: 5px; margin-right: 5%; max-width: 1135px; height: fit-content;">
             <div id="ErrorText" style="padding-right: 40px; color:#ffffff">
                 An error occurred during the process of conversion. Please ensure that the given text was copied correctly!
             </div>
-            <button class="ErrorMessageButton" id="CloseErrorMessage" onclick="closeErrorMessageNow()">
+            <button class="ErrorMessageButton" id="CloseErrorMessage" style="display:block" onclick="closeErrorMessageNow()">
                 <img id="ErrorMessageCloseIcon" style="width: 20px; height: 20px; margin-bottom: 3px;" src="res/img/cross.png">
             </button>
         </div>        
     </div>
     <script>
+
+        if(window.innerWidth < 660){
+            document.getElementById("title").style.fontSize = (window.innerWidth / 750 * 40) + "px"
+        }
+
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const img = urlParams.get('img');
+        
+        if(img != null){
+            document.getElementById("input").value = img;
+        }
+
         var currTimeout = null;
         var errorShown = false;
+
+        window.addEventListener('resize', function(event) {
+            console.log(window);
+            if(window.innerWidth < 660){
+                document.getElementById("title").style.fontSize = (window.innerWidth / 750 * 40) + "px"
+            }
+            //document.getElementById("title").style.fontSize = window.innerWidth / 
+        }, true);
+
         function closeErrorMessageNow(){
             clearTimeout(currTimeout);
             hideErrorMessage();
@@ -60,6 +82,7 @@
             errorShown = false;
         }
         function hideErrorMessage(){
+            document.getElementById("CloseErrorMessage").style.display = "none";
             document.getElementById("ErrorMessage").style.transition = "background-color 0.5s ease";
             document.getElementById("ErrorText").style.transition = "color 0.5s ease";
             document.getElementById("ErrorMessageCloseIcon").style.transition = "opacity 0.5s ease";
@@ -75,6 +98,7 @@
             document.getElementById("ErrorText").style.color = "rgba(255, 255, 255, 0)";
             document.getElementById("ErrorMessageCloseIcon").style.opacity = "0";
 
+            document.getElementById("CloseErrorMessage").style.display = "block";
             document.getElementById("ErrorMessage").style.transition = "background-color 0.5s ease";
             document.getElementById("ErrorText").style.transition = "color 0.5s ease";
             document.getElementById("ErrorMessageCloseIcon").style.transition = "opacity 0.5s ease";
