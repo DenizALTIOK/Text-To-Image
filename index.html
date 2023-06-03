@@ -54,13 +54,19 @@
             document.getElementById("title").style.fontSize = (window.innerWidth / 750 * 40) + "px"
         }
 
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const img = urlParams.get('img');
-        
-        if(img != null){
-            document.getElementById("input").value = img;
-        }
+        window.onload = function(){
+            if(window.innerWidth < 660){
+                document.getElementById("title").style.fontSize = (window.innerWidth / 750 * 40) + "px"
+            }
+
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const img = urlParams.get('img');
+            
+            if(img != null){
+                document.getElementById("input").value = img;
+            }
+        };
 
         var currTimeout = null;
         var errorShown = false;
@@ -69,7 +75,6 @@
             if(window.innerWidth < 660){
                 document.getElementById("title").style.fontSize = (window.innerWidth / 750 * 40) + "px"
             }
-            //document.getElementById("title").style.fontSize = window.innerWidth / 
         }, true);
 
         function closeErrorMessageNow(){
